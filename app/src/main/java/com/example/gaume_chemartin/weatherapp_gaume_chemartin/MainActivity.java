@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,10 +29,16 @@ public class MainActivity extends AppCompatActivity {
             String line;
             Gson g = new Gson();
             while ((line = reader.readLine()) != null) {
-                City city = g.fromJson(line, City.class);
-                arrayCity.add(city);
+                out.append(line);
             }
-            Log.i("JSON",out.toString());
+
+            String stringCities = out.toString();
+
+            arrayCity = g.fromJson(stringCities, new TypeToken<ArrayList<City>>(){}.getType());
+
+
+
+            Log.i("JSON",arrayCity.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
