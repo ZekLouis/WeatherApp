@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
             arrayCity = g.fromJson(stringCities, new TypeToken<ArrayList<City>>(){}.getType());
 
-
-
-            Log.i("JSON",arrayCity.toString());
+            for(City city : arrayCity) {
+                Log.i("City", city.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
