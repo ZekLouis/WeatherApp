@@ -3,6 +3,8 @@ package com.example.gaume_chemartin.weatherapp_gaume_chemartin;
 import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -20,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ArrayList<City> arrayCity = new ArrayList<>();
 
         try {
             InputStream inputStream = getAssets().open("city_france.json");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder out = new StringBuilder();
-            ArrayList<City> arrayCity = new ArrayList<>();
             String line;
             Gson g = new Gson();
             while ((line = reader.readLine()) != null) {
@@ -42,5 +44,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(new CityAdapter(arrayCity));
     }
 }
