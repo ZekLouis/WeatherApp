@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 public class CityHolder extends RecyclerView.ViewHolder{
     private TextView nomVille;
-    private City city;
 
 
     public CityHolder(View itemView) {
@@ -19,7 +18,24 @@ public class CityHolder extends RecyclerView.ViewHolder{
         nomVille = (TextView) itemView.findViewById(R.id.villeName);
     }
 
-    public void bind(City city){
+    public void bind(final City city, final CityAdapter.OnCityListener listener){
+        // Affectation du listener
+        if(listener != null) {
+            nomVille.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onCityClick(city);
+                }
+            });
+
+            nomVille.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    listener.onCityLongClick(city);
+                    return false;
+                }
+            });
+        }
         nomVille.setText(city.getName());
     }
 }

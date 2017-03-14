@@ -1,31 +1,62 @@
 package com.example.gaume_chemartin.weatherapp_gaume_chemartin;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by louis on 27/02/2017.
  */
 
-public class Coord {
-    private float latitude;
-    private float longitude;
+public class Coord implements Parcelable{
+    private double latitude;
+    private double longitude;
 
-    public Coord(float latitude, float longitude){
+    public Coord(double latitude, double longitude){
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    protected Coord(Parcel in) {
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Coord> CREATOR = new Creator<Coord>() {
+        @Override
+        public Coord createFromParcel(Parcel in) {
+            return new Coord(in);
+        }
+
+        @Override
+        public Coord[] newArray(int size) {
+            return new Coord[size];
+        }
+    };
+
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

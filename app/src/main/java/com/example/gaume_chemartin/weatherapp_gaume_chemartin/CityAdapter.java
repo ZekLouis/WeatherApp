@@ -13,9 +13,16 @@ import java.util.ArrayList;
 
 public class CityAdapter extends RecyclerView.Adapter<CityHolder>{
 
+    private OnCityListener listener;
     ArrayList<City> liste = new ArrayList<>();
 
-    public CityAdapter(ArrayList<City> cities){
+    public interface OnCityListener {
+        void onCityClick(City city);
+        void onCityLongClick(City city);
+    }
+
+    public CityAdapter(ArrayList<City> cities, OnCityListener listener){
+        this.listener = listener;
         this.liste = cities;
     }
 
@@ -27,7 +34,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityHolder>{
 
     @Override
     public void onBindViewHolder(CityHolder holder, int position) {
-        holder.bind(liste.get(position));
+        holder.bind(liste.get(position), listener);
     }
 
     @Override

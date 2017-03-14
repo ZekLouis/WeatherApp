@@ -1,6 +1,8 @@
 package com.example.gaume_chemartin.weatherapp_gaume_chemartin;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,15 +40,29 @@ public class MainActivity extends AppCompatActivity {
 
             arrayCity = g.fromJson(stringCities, new TypeToken<ArrayList<City>>(){}.getType());
 
-            for(City city : arrayCity) {
-                Log.i("City", city.toString());
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new CityAdapter(arrayCity));
+        recyclerView.setAdapter(new CityAdapter(arrayCity, new CityAdapter.OnCityListener() {
+            @Override
+            public void onCityClick(City city) {
+                // Action lors du clic sur un item de la liste
+                Intent intent = new Intent(MainActivity.this, DetailsVille.class);
+                intent.putExtra("VILLE", (Parcelable) city);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCityLongClick(City city) {
+                // Autre action lors du clic long sur un item de la liste
+            }
+        }));
+
+
+
+
     }
 }
